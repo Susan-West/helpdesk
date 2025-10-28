@@ -1,4 +1,4 @@
-import { AlertCircle, Users, TrendingUp } from 'lucide-react'
+import { AlertCircle, Users, TrendingUp, Ticket, Settings, LockKeyhole, BarChart3 } from 'lucide-react'
 
 export const statsData = [
   { label: 'Open Tickets', value: 12, icon: AlertCircle, bg: 'bg-red-100', color: 'text-red-600' },
@@ -43,3 +43,10 @@ export const priorityConfig = {
   high: { bg: 'bg-yellow-100', text: 'text-yellow-800' },
   critical: { bg: 'bg-red-100', text: 'text-red-800' }
 }
+
+export const navigation = [
+  {name: "Dashboard", href: "/admin", icon: BarChart3},
+  {name: "Ticket Oversight", href: "/ticket", icon: Ticket},
+  {name: "Access & Security", href: "/access", icon: LockKeyhole},
+  {name: "System Settings", href: "/settings", icon: Settings}
+]

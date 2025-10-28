@@ -1,7 +1,7 @@
 'use client'
 
 import React from 'react'
-import { statsData, tickets } from '../constant'
+import { tickets } from '../constant'
 import { Plus, Search, AlertCircle, Users, TrendingUp } from 'lucide-react'
 
 const Dashboard = ({ onCreateTicket = () => {}, onViewTickets = () => {}, onTicketClick = () => {} }) => {
