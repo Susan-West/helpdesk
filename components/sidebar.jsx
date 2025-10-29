@@ -1,4 +1,4 @@
-import { navigation } from "@/constant" 
+import { navigation } from "../constant" 
 import { BarChart3, Package, Settings, Plus } from "lucide-react"
 import Link from "next/link"
 const SideBar = ({currentPath = "/dashboard"}) => {

@@ -1,6 +1,6 @@
 "use client";
 
-import SideBar from "@/components/sidebar"
+import SideBar from "../../components/sidebar"
 import { useState } from "react";
 
 const Ticket = () => {

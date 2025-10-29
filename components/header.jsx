@@ -4,7 +4,7 @@ import React from 'react'
 import Link from 'next/link'
 import { User, Bell, Settings, LogOut, HelpCircle } from 'lucide-react'
 
-const Layout = ({ currentUser = null, onSignOut = null }) => {
+const Header = ({ currentUser = null, onSignOut = null }) => {
   return (
     <>
       <header className="bg-white shadow-sm border-b border-gray-200">
@@ -72,4 +72,4 @@ const Layout = ({ currentUser = null, onSignOut = null }) => {
   )
 }
 
-export default Layout
+export default Header;
