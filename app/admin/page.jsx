@@ -1,6 +1,7 @@
 
-import SideBar from "@/components/sidebar"
-import KpiCard from "@/components/kpi-card";
+import SideBar from "../components/sidebar";
+import KpiCard from "../components/kpi-card";
+import Link from "next/link";
 
 
 const Admin = () => {
@@ -42,9 +43,9 @@ const Admin = () => {
         <button className="bg-blue-600 text-white px-4 py-2 rounded hover:bg-blue-700">
           + Create Ticket
         </button>
-        <button className="bg-green-600 text-white px-4 py-2 rounded hover:bg-green-700">
+        <Link href={"/sign-up"} className="bg-green-600 text-white px-4 py-2 rounded hover:bg-green-700">
           + Add User
-        </button>
+        </Link>
         <button className="bg-purple-600 text-white px-4 py-2 rounded hover:bg-purple-700">
           + Add Inventory
         </button>

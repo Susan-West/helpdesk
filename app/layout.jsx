@@ -1,4 +1,6 @@
 import { Inter } from "next/font/google";
+import { StackProvider, StackTheme } from "@stackframe/stack";
+import { stackClientApp } from "../stack/client";
 import "./globals.css";
 
 const inter = Inter({
@@ -17,9 +19,9 @@ export default function RootLayout({ children }) {
     <html lang="en">
       <body
         className={inter.className}
-      >
+      ><StackProvider app={stackClientApp}><StackTheme>
         {children}
-      </body>
+      </StackTheme></StackProvider></body>
     </html>
   );
 }
