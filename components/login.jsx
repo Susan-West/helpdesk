@@ -22,26 +22,56 @@ const Login = () => {
     return /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d).{8,}$/.test(password);
   };
 
-  const handleSubmit = async (e) => {
-    e.preventDefault();
-    setLoading(true);
-    setError("");
-    setSuccess("");
+const handleSubmit = async (e) => {
+  e.preventDefault();
+  setLoading(true);
+  setError("");
+  setSuccess("");
 
-    if (!validatePassword(formData.password)) {
-      setError(
-        "Password must be at least 8 characters, include an uppercase letter, a lowercase letter, and a number."
-      );
+  if (!validatePassword(formData.password)) {
+    setError(
+      "Password must be at least 8 characters, include an uppercase letter, a lowercase letter, and a number."
+    );
+    setLoading(false);
+    return;
+  }
+
+  try {
+    const res = await fetch("/api/auth/login", {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({
+        name: formData.username, // ✅ match backend field
+        password: formData.password,
+      }),
+    });
+
+    const data = await res.json();
+
+    if (!res.ok) {
+      setError(data.error || "Login failed");
       setLoading(false);
       return;
     }
 
-    // Simulate API call
+    // ✅ Store token
+    localStorage.setItem("token", data.token);
+
+    // ✅ Redirect based on role
+    setSuccess("Signin successful!");
     setTimeout(() => {
-      setLoading(false);
-      setSuccess("Signin successful!");
+      if (data.user.role === "ADMIN") {
+        window.location.href = "/admin";
+      } else {
+        window.location.href = "/users";
+      }
     }, 1000);
-  };
+  } catch (err) {
+    console.error("Login error:", err);
+    setError("Something went wrong. Please try again.");
+    setLoading(false);
+  }
+};
 
   return (
     <>
