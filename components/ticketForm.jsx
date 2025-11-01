@@ -1,11 +1,15 @@
 'use client'
 
 import React, { useState } from 'react'
+import { useRouter } from 'next/navigation'
+import { toast } from 'react-toastify'
 import { categories, priorities } from '../constant'
-import { X, Upload, AlertTriangle } from 'lucide-react'
+import { X, AlertTriangle } from 'lucide-react'
 
-const TicketForm = ({onClose, onSubmit}) => {
-    const [formData, setFormData] = useState({
+const TicketForm = ({ onClose }) => {
+  const router = useRouter()
+
+  const [formData, setFormData] = useState({
     title: '',
     description: '',
     category: '',
@@ -14,11 +18,6 @@ const TicketForm = ({onClose, onSubmit}) => {
     phone_contact: ''
   })
 
-  const handleSubmit = (e) => {
-    e.preventDefault()
-    onSubmit(formData)
-  }
-
   const handleChange = (e) => {
     setFormData({
       ...formData,
@@ -26,17 +25,44 @@ const TicketForm = ({onClose, onSubmit}) => {
     })
   }
 
+  const handleSubmit = async (e) => {
+    e.preventDefault()
+    const token = localStorage.getItem('token')
+
+    try {
+      const res = await fetch('/api/tickets/create', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+          Authorization: `Bearer ${token}`
+        },
+        body: JSON.stringify(formData)
+      })
+
+      const data = await res.json()
+
+      if (res.ok) {
+        toast.success('Ticket submitted successfully!')
+        setTimeout(() => {
+          onClose()
+          router.push('/users')
+        }, 500)
+      } else {
+        toast.error(data.error || 'Something went wrong.')
+      }
+    } catch (err) {
+      console.error('Submit error:', err)
+      toast.error('Network error. Please try again.')
+    }
+  }
+
   return (
-    <>
-      <div className="fixed inset-0 bg-white/60 bg-opacity-50 flex items-center justify-center p-4 z-50">
+    <div className="fixed inset-0 bg-white/60 bg-opacity-50 flex items-center justify-center p-4 z-50">
       <div className="bg-white rounded-lg max-w-2xl w-full max-h-[90vh] overflow-y-auto">
         <div className="p-6">
           <div className="flex items-center justify-between mb-6">
             <h2 className="text-xl font-semibold text-gray-900">Submit Support Ticket</h2>
-            <button
-              onClick={onClose}
-              className="p-2 hover:bg-gray-100 rounded-lg transition-colors"
-            >
+            <button onClick={onClose} className="p-2 hover:bg-gray-100 rounded-lg transition-colors">
               <X className="w-5 h-5" />
             </button>
           </div>
@@ -55,7 +81,7 @@ const TicketForm = ({onClose, onSubmit}) => {
                 value={formData.title}
                 onChange={handleChange}
                 placeholder="Brief description of your issue"
-                className='border border-gray-300 rounded-md px-3 py-2 focus:outline-none focus:ring-2 focus:ring-blue-600 focus:border-transparent'
+                className="border border-gray-300 rounded-md px-3 py-2 focus:outline-none focus:ring-2 focus:ring-blue-600 focus:border-transparent"
               />
             </div>
 
@@ -71,11 +97,13 @@ const TicketForm = ({onClose, onSubmit}) => {
                   required
                   value={formData.category}
                   onChange={handleChange}
-                  className='border border-gray-300 rounded-md px-3 py-2 focus:outline-none focus:ring-2 focus:ring-blue-600 focus:border-transparent'
+                  className="border border-gray-300 rounded-md px-3 py-2 focus:outline-none focus:ring-2 focus:ring-blue-600 focus:border-transparent"
                 >
                   <option value="">Select category</option>
                   {categories.map((cat) => (
-                    <option key={cat.value} value={cat.value}>{cat.label}</option>
+                    <option key={cat.value} value={cat.value}>
+                      {cat.label}
+                    </option>
                   ))}
                 </select>
               </div>
@@ -90,7 +118,7 @@ const TicketForm = ({onClose, onSubmit}) => {
                   required
                   value={formData.priority}
                   onChange={handleChange}
-                  className='border border-gray-300 rounded-md px-3 py-2 focus:outline-none focus:ring-2 focus:ring-blue-600 focus:border-transparent'
+                  className="border border-gray-300 rounded-md px-3 py-2 focus:outline-none focus:ring-2 focus:ring-blue-600 focus:border-transparent"
                 >
                   <option value="">Select priority</option>
                   {priorities.map((priority) => (
@@ -114,11 +142,10 @@ const TicketForm = ({onClose, onSubmit}) => {
                   name="location"
                   value={formData.location}
                   onChange={handleChange}
-                  className='border border-gray-300 rounded-md px-3 py-2 focus:outline-none focus:ring-2 focus:ring-blue-600 focus:border-transparent'
+                  className="border border-gray-300 rounded-md px-3 py-2 focus:outline-none focus:ring-2 focus:ring-blue-600 focus:border-transparent"
                   placeholder="Room number, department, etc."
                 />
               </div>
-
             </div>
 
             {/* Description */}
@@ -146,7 +173,7 @@ const TicketForm = ({onClose, onSubmit}) => {
                   <div>
                     <h4 className="text-sm font-medium text-red-800">Critical Issue Alert</h4>
                     <p className="text-sm text-red-700 mt-1">
-                      For critical issues affecting patient care or system-wide outages, 
+                      For critical issues affecting patient care or system-wide outages,
                       please also contact our emergency hotline at ext. 911.
                     </p>
                   </div>
@@ -159,13 +186,13 @@ const TicketForm = ({onClose, onSubmit}) => {
               <button
                 type="button"
                 onClick={onClose}
-                className="border border-gray-300 bg-red-600 text-white rounded-md px-4 py-2 hover:bg-red-700 hover:cursor-pointer transition-colors"
+                className="border border-gray-300 bg-red-600 text-white rounded-md px-4 py-2 hover:bg-red-700 transition-colors"
               >
                 Cancel
               </button>
               <button
                 type="submit"
-                className="bg-blue-600 text-white rounded-md px-4 py-2 hover:bg-blue-700 hover:cursor-pointer transition-colors flex items-center space-x-2"
+                className="bg-blue-600 text-white rounded-md px-4 py-2 hover:bg-blue-700 transition-colors flex items-center space-x-2"
               >
                 Submit Ticket
               </button>
@@ -174,7 +201,6 @@ const TicketForm = ({onClose, onSubmit}) => {
         </div>
       </div>
     </div>
-    </>
   )
 }
 

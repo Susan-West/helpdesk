@@ -1,11 +1,14 @@
 'use client';
 
-import { useState } from "react";
-import Header from "../../components/header";
-import Dashboard from "../../components/dashboard";
-import TicketDetail from "../../components/ticketDetail";
-import TicketForm from "../../components/ticketForm";
-import TicketList from "../../components/ticketList";
+import { ToastContainer } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
+
+import { useState } from 'react';
+import Header from '../../components/header';
+import Dashboard from '../../components/dashboard';
+import TicketDetail from '../../components/ticketDetail';
+import TicketForm from '../../components/ticketForm';
+import TicketList from '../../components/ticketList';
 
 const Main = () => {
   const [showForm, setShowForm] = useState(false);
@@ -29,17 +32,23 @@ const Main = () => {
   };
 
   const handleTicketSubmitted = (ticket) => {
-    // ticket comes from TicketForm -> you can adjust to push into list / call API
-    closeForm();
-    if (ticket) {
-      setSelectedTicket(ticket);
-      setShowDetail(true);
-    }
+    // Called after successful submission from TicketForm
+    setTimeout(() => {
+      closeForm(); // ✅ Close modal after toast has time to render
+      if (ticket) {
+        setSelectedTicket(ticket);
+        setShowDetail(true);
+      }
+    }, 500); // ✅ Delay to allow toast to show
   };
 
   return (
     <>
+      {/* ✅ Toast container mounted at top level */}
+      <ToastContainer position="top-right" autoClose={3000} />
+
       <Header />
+
       <Dashboard
         onCreateTicket={openForm}
         onViewTickets={openList}
@@ -51,13 +60,13 @@ const Main = () => {
       {showForm && (
         <TicketForm
           onClose={closeForm}
-          onSubmitted={handleTicketSubmitted} // TicketForm should call this with created ticket
+          onSubmitted={handleTicketSubmitted} // ✅ TicketForm should call this after success
         />
       )}
 
       {showList && (
         <TicketList
-          tickets={[]} // pass real tickets array here
+          tickets={[]} // Replace with real ticket data
           onTicketClick={(ticket) => {
             openDetail(ticket);
             closeList();

@@ -13,29 +13,40 @@ datasource db {
   url      = env("DATABASE_URL")
 }
 
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
 model User {
   id        String   @id @default(uuid())
-  password  String  
   name      String
+  password  String
   role      Role
   tickets   Ticket[] @relation("CreatedTickets")
   assigned  Ticket[] @relation("AssignedTickets")
-  Comments  Comment[]
+  comments  Comment[]
 }
 
 model Ticket {
-  id          String   @id @default(uuid())
-  title       String
-  description String
-  status      Status   @default(OPEN)
-  priority    Priority @default(MEDIUM)
-  createdBy   User     @relation("CreatedTickets", fields: [createdById], references: [id])
-  createdById String
-  assignedTo  User?    @relation("AssignedTickets", fields: [assignedToId], references: [id])
-  assignedToId String?
-  comments    Comment[]
-  createdAt   DateTime @default(now())
-  updatedAt   DateTime @updatedAt
+  id            String   @id @default(uuid())
+  title         String
+  description   String
+  category      String?
+  status        Status   @default(OPEN)
+  priority      Priority @default(MEDIUM)
+  location      String?
+  createdBy     User     @relation("CreatedTickets", fields: [createdById], references: [id])
+  createdById   String
+  assignedTo    User?    @relation("AssignedTickets", fields: [assignedToId], references: [id])
+  assignedToId  String?
+  comments      Comment[]
+  createdAt     DateTime @default(now())
+  updatedAt     DateTime @updatedAt
 }
 
 model Comment {
