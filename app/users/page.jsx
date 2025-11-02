@@ -1,9 +1,9 @@
 'use client';
 
-import { ToastContainer } from 'react-toastify';
+import { useState } from 'react';
+import { ToastContainer, toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 
-import { useState } from 'react';
 import Header from '../../components/header';
 import Dashboard from '../../components/dashboard';
 import TicketDetail from '../../components/ticketDetail';
@@ -15,11 +15,30 @@ const Main = () => {
   const [showList, setShowList] = useState(false);
   const [showDetail, setShowDetail] = useState(false);
   const [selectedTicket, setSelectedTicket] = useState(null);
+  const [userTickets, setUserTickets] = useState([]);
 
   const openForm = () => setShowForm(true);
   const closeForm = () => setShowForm(false);
 
-  const openList = () => setShowList(true);
+  const openList = async () => {
+    const token = localStorage.getItem('token');
+    try {
+      const res = await fetch('/api/tickets/mytickets', {
+        headers: { Authorization: `Bearer ${token}` },
+      });
+      const data = await res.json();
+      if (res.ok) {
+        setUserTickets(data.tickets);
+        setShowList(true);
+      } else {
+        toast.error(data.error || 'Failed to load tickets.');
+      }
+    } catch (err) {
+      console.error('Fetch error:', err);
+      toast.error('Network error. Please try again.');
+    }
+  };
+
   const closeList = () => setShowList(false);
 
   const openDetail = (ticket) => {
@@ -32,19 +51,17 @@ const Main = () => {
   };
 
   const handleTicketSubmitted = (ticket) => {
-    // Called after successful submission from TicketForm
     setTimeout(() => {
-      closeForm(); // ✅ Close modal after toast has time to render
+      closeForm();
       if (ticket) {
         setSelectedTicket(ticket);
         setShowDetail(true);
       }
-    }, 500); // ✅ Delay to allow toast to show
+    }, 500);
   };
 
   return (
     <>
-      {/* ✅ Toast container mounted at top level */}
       <ToastContainer position="top-right" autoClose={3000} />
 
       <Header />
@@ -55,18 +72,19 @@ const Main = () => {
         onTicketClick={(ticket) => {
           openDetail(ticket);
         }}
+        loading = {false}
       />
 
       {showForm && (
         <TicketForm
           onClose={closeForm}
-          onSubmitted={handleTicketSubmitted} // ✅ TicketForm should call this after success
+          onSubmitted={handleTicketSubmitted}
         />
       )}
 
       {showList && (
         <TicketList
-          tickets={[]} // Replace with real ticket data
+          tickets={userTickets}
           onTicketClick={(ticket) => {
             openDetail(ticket);
             closeList();
