@@ -13,9 +13,9 @@ export default function AdminDashboard() {
   };
 
   const tickets = [
-    { id: '1', title: 'Printer not working', status: 'OPEN', priority: 'HIGH', assignedTo: 'Tech A' },
-    { id: '2', title: 'PC slow boot', status: 'PENDING', priority: 'MEDIUM', assignedTo: 'Tech B' },
-    { id: '3', title: 'Projector setup', status: 'RESOLVED', priority: 'LOW', assignedTo: 'Tech C' },
+    { id: '1', title: 'Printer not working', status: 'OPEN', priority: 'HIGH', assignedTo: 'Farouk' },
+    { id: '2', title: 'PC slow boot', status: 'PENDING', priority: 'MEDIUM', assignedTo: 'Olivia' },
+    { id: '3', title: 'Projector setup', status: 'RESOLVED', priority: 'LOW', assignedTo: 'Susan' },
   ];
 
   return (

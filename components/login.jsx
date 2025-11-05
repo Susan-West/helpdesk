@@ -1,6 +1,7 @@
 "use client"
 import { useState } from "react";
 import { HelpCircle, Eye, EyeOff, AlertCircle } from "lucide-react";
+import Link from "next/link";
 
 const Login = () => {
   const [formData, setFormData] = useState({
@@ -157,6 +158,15 @@ const handleSubmit = async (e) => {
                 {loading ? "Signing in..." : "Sign In"}
               </button>
             </form>
+
+            <div className=" mt-3">
+            <div className="font-medium text-blue-700 flex items-center justify-center gap-1.5">
+              Need an account?
+              <Link href="/sign-up" className="text-blue-700 hover:underline">
+                Sign Up
+              </Link>
+            </div>
+          </div>
           </div>
         </div>
       </div>

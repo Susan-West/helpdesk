@@ -8,13 +8,13 @@ const Ticket = () => {
   const [sortKey, setSortKey] = useState('priority');
 
   const tickets = [
-    { id: '1', title: 'Printer not working', status: 'OPEN', priority: 'HIGH', assignedTo: 'Tech A' },
-    { id: '2', title: 'PC slow boot', status: 'PENDING', priority: 'MEDIUM', assignedTo: 'Tech B' },
-    { id: '3', title: 'Projector setup', status: 'RESOLVED', priority: 'LOW', assignedTo: 'Tech C' },
+    { id: '1', title: 'Printer not working', status: 'OPEN', priority: 'HIGH', assignedTo: 'Farouk' },
+    { id: '2', title: 'PC slow boot', status: 'PENDING', priority: 'MEDIUM', assignedTo: 'Olivia' },
+    { id: '3', title: 'Projector setup', status: 'RESOLVED', priority: 'LOW', assignedTo: 'Susan' },
     { id: '4', title: 'Wi-Fi issue in ward', status: 'OPEN', priority: 'CRITICAL', assignedTo: null },
   ];
 
-  const technicians = ['Tech A', 'Tech B', 'Tech C'];
+  const technicians = ['Farouk', 'Olivia', 'Susan', ];
 
   const priorityOrder = { CRITICAL: 1, HIGH: 2, MEDIUM: 3, LOW: 4 };
   const sorted = [...tickets].sort((a, b) => {

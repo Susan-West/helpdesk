@@ -81,7 +81,7 @@ const TicketList = ({ tickets = [], onTicketClick = () => {}, onClose = () => {}
   });
 
   return (
-    <div className="fixed inset-0 bg-white/50 flex items-center justify-center p-4 z-50">
+    <div className="fixed inset-0 bg-white/60 backdrop-blur-sm flex items-center justify-center p-4 z-50">
       <div className="bg-white rounded-lg max-w-6xl w-full max-h-[90vh] overflow-hidden flex flex-col">
         {/* Header */}
         <div className="p-6 border-b border-gray-200">

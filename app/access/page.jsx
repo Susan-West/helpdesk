@@ -8,8 +8,8 @@ const Access = () => {
 
   // Mock user data
   const users = [
-    { id: '1', email: 'nurse1@hospital.com', role: 'USER', active: true },
-    { id: '2', email: 'tech1@hospital.com', role: 'TECHNICIAN', active: true },
+    { id: '1', email: 'west1@hospital.com', role: 'USER', active: true },
+    { id: '2', email: 'farouk1@hospital.com', role: 'TECHNICIAN', active: true },
     { id: '3', email: 'admin@hospital.com', role: 'ADMIN', active: true },
   ];
 
